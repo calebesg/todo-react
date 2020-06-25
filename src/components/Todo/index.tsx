@@ -1,4 +1,6 @@
 import React from 'react';
+import { formatDistance } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { FiCircle, FiCheckCircle } from 'react-icons/fi';
 
 import './styles.css';
@@ -8,7 +10,7 @@ interface Todo {
     id: number,
     title: string,
     checked: boolean,
-    posted: string
+    posted: Date
   },
   handleClickTodo: (id: number) => void
 };
@@ -28,7 +30,7 @@ const Todo: React.FC<Todo> = ({ todo, handleClickTodo }) => {
         {todo.checked ? <FiCheckCircle /> : <FiCircle />}
         <p>{todo.title}</p>
       </div>
-      <span>{todo.posted}</span>
+      <span>{formatDistance(todo.posted, new Date(), { locale: ptBR })}</span>
     </button>
   );
 }

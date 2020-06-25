@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-
 import './App.css';
+
+import captalizeString from './utils/captalizeString';
 
 import Form from './components/Form';
 import Todo from './components/Todo';
@@ -11,7 +12,7 @@ interface TodoData {
   id: number,
   title: string,
   checked: boolean,
-  posted: string
+  posted: Date
 };
 
 interface DateBR {
@@ -24,18 +25,18 @@ interface DateBR {
 
 function App() {
   const [todos, setTodos] = useState<TodoData[]>([]);
-  //const [date, setDate] = useState<DateBR>({} as DateBR);
+  const [date, setDate] = useState<DateBR>();
 
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
     const data = [
-      { id: 1, title: 'Ir ao super mercado', checked: true, posted: '7:00 AM' },
-      { id: 2, title: 'Levar as criaçãs para almoçar', checked: false, posted: '12:00 AM' },
-      { id: 3, title: 'Ir embora do serviço', checked: true, posted: '18:40 PM' },
-      { id: 4, title: 'Hora do rango', checked: true, posted: '20:10 PM' },
-      { id: 5, title: 'Hora do rango', checked: false, posted: '20:10 PM' },
-      { id: 6, title: 'Hora do rango', checked: true, posted: '20:10 PM' },
+      { id: 1, title: 'Ir ao super mercado', checked: true, posted: new Date() },
+      { id: 2, title: 'Levar as criaçãs para almoçar', checked: false, posted: subDays(new Date(), 3) },
+      { id: 3, title: 'Ir embora do serviço', checked: true, posted: subDays(new Date(), 7) },
+      { id: 4, title: 'Hora do rango', checked: true, posted: subDays(new Date(), 10) },
+      { id: 5, title: 'Hora do rango', checked: false, posted: subDays(new Date(), 1) },
+      { id: 6, title: 'Hora do rango', checked: true, posted: subDays(new Date(), 100) },
     ];
 
     setTodos(data);
@@ -43,9 +44,17 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const date = format(new Date(), 'MMMM-ddd', {locale: ptBR});
+    const dateNow = format(new Date(), 'EEEE-dd-MMMM', { locale: ptBR });
 
-    console.log(date);
+    const date = dateNow.split('-');
+
+    setDate({
+      day: {
+        week: captalizeString(date[0]),
+        month: Number(date[1]),
+      },
+      month: captalizeString(date[2])
+    });
   }, []);
 
   function handleClickTodo(id: number) {
@@ -71,11 +80,11 @@ function App() {
 
         <header>
           <div className="header-top">
-            <h1>Terça, <span>th</span></h1>
-            <p><span>{total}</span> Tasks</p>
+            <h1>{date?.day.week}, <span>{date?.day.month}</span></h1>
+            <p><span>{total}</span> Tarefas</p>
           </div>
 
-          <p>December</p>
+          <p>{date?.month}</p>
         </header>
 
         <Form />
