@@ -30,11 +30,7 @@ const Todo: React.FC<Todo> = ({ todo, handleClickTodo }) => {
         <p>{todo.title}</p>
       </div>
       <span>
-        {formatDistance(
-          new Date(todo.posted * 1000),
-          new Date(), 
-          { locale: ptBR }
-        )}
+        {formatDistance(new Date(todo.posted), new Date(), { locale: ptBR })}
       </span>
     </button>
   );
