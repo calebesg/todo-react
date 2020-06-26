@@ -19,8 +19,25 @@
   border-top-right-radius: 16px;
 }
 
+@media(max-width: 700px) {
+  #page-home {
+    padding: 0;
+  }
+
+  .page-home-content {
+    border-radius: 0;
+    padding-top: 32px;
+  }
+}
+
 header {
   padding: 0 48px;
+}
+
+@media(max-width: 700px) {
+  header {
+    padding: 0 24px;
+  }
 }
 
 header .header-top {
