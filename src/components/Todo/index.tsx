@@ -7,10 +7,9 @@ import './styles.css';
 
 interface Todo {
   todo: {
-    id: number,
     title: string,
     checked: boolean,
-    posted: Date
+    posted: number
   },
   handleClickTodo: (id: number) => void
 };
@@ -18,7 +17,7 @@ interface Todo {
 const Todo: React.FC<Todo> = ({ todo, handleClickTodo }) => {
 
   function handleClick() {
-    handleClickTodo(todo.id);
+    handleClickTodo(todo.posted);
   }
 
   return (
@@ -30,7 +29,13 @@ const Todo: React.FC<Todo> = ({ todo, handleClickTodo }) => {
         {todo.checked ? <FiCheckCircle /> : <FiCircle />}
         <p>{todo.title}</p>
       </div>
-      <span>{formatDistance(todo.posted, new Date(), { locale: ptBR })}</span>
+      <span>
+        {formatDistance(
+          new Date(todo.posted * 1000),
+          new Date(), 
+          { locale: ptBR }
+        )}
+      </span>
     </button>
   );
 }

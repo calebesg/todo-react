@@ -13,7 +13,7 @@
   background-color: rgba(102, 106, 251, 0.1);
 }
 
-.form-add button {
+.form-add>button {
   position: absolute;
   right: 48px;
   
@@ -23,20 +23,93 @@
   border: 0;
   border-radius: 50%;
   background-color: var(--primary-color);
-  cursor: pointer;
+
   transition: all .3s;
 }
 
+.form-add>button.close {
+  width: 40px;
+  height: 40px;
+  right: 58px;
+  background: transparent;
+}
+
+.form-add>button.close svg {
+  transition: all .3s;
+}
+
+.form-add>button.close:hover svg {
+  font-size: 36px;
+}
+
 button svg {
-  font-size: 32px;
+  font-size: 28px;
   
   color: #FFF;
 }
 
-button:hover {
-  background-color: #e72253;
-}
-
 main ul {
   margin-top: 48px;
+  height: 100%;
+}
+
+.form-add form {
+  background-color: var(--primary-color);
+  width: 100%;
+  height: 86px;
+
+  padding-left: 48px;
+  padding-right: 108px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all .3s;
+}
+
+.form-add form.hide {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin-top: 0px;
+}
+
+.form-add form input {
+  height: 48px;
+  width: 100%;
+  padding: 0 24px;
+  margin-right: 16px;
+
+  font-size: 18px;
+  font-weight: 500;
+  color: #FFF;
+  border: 0;
+  border-radius: 10px;
+
+  background:transparent;
+  transition: background .3s;
+}
+
+.form-add form input:focus {
+  background-color: rgba(0,0,0, 0.1);
+}
+
+.form-add form input::placeholder {
+  color: #FFFFFFDD;
+}
+
+.form-add form>button {
+  border: 0;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+}
+
+.form-add form>button svg {
+  transition: all .3s;
+}
+
+.form-add form button:hover svg {
+  font-size: 36px;
 }

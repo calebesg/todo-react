@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import './App.css';
 
@@ -9,10 +9,9 @@ import Form from './components/Form';
 import Todo from './components/Todo';
 
 interface TodoData {
-  id: number,
   title: string,
   checked: boolean,
-  posted: Date
+  posted: number
 };
 
 interface DateBR {
@@ -21,7 +20,7 @@ interface DateBR {
     month: number
   },
   month: string
-}
+};
 
 function App() {
   const [todos, setTodos] = useState<TodoData[]>([]);
@@ -30,17 +29,19 @@ function App() {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    const data = [
-      { id: 1, title: 'Ir ao super mercado', checked: true, posted: new Date() },
-      { id: 2, title: 'Levar as criaçãs para almoçar', checked: false, posted: subDays(new Date(), 3) },
-      { id: 3, title: 'Ir embora do serviço', checked: true, posted: subDays(new Date(), 7) },
-      { id: 4, title: 'Hora do rango', checked: true, posted: subDays(new Date(), 10) },
-      { id: 5, title: 'Hora do rango', checked: false, posted: subDays(new Date(), 1) },
-      { id: 6, title: 'Hora do rango', checked: true, posted: subDays(new Date(), 100) },
-    ];
+    async function loadTodos() {
+      const response = await localStorage.getItem('@react-todos');
 
-    setTodos(data);
-    setTotal(data.length);
+      if (!response) return;
+
+      const data = JSON.parse(response) as TodoData[];
+
+      setTodos(data);
+      
+      setTotal(data.length);
+    }
+
+    loadTodos();
   }, []);
 
   useEffect(() => {
@@ -58,13 +59,13 @@ function App() {
   }, []);
 
   function handleClickTodo(id: number) {
-    const currentTodo = todos.find(item => item.id === id);
+    const currentTodo = todos.find(item => item.posted === id);
 
     if (!currentTodo) return;
 
     const filteredItems = todos.map(todo => {
       
-      if (todo.id === id) {
+      if (todo.posted === id) {
         todo.checked = !todo.checked;
       }
 
@@ -72,6 +73,16 @@ function App() {
     });
 
     setTodos(filteredItems);
+  }
+
+  async function saveTodo(todo: TodoData) {
+    const data = [todo, ...todos];
+
+    await localStorage.setItem('@react-todos', JSON.stringify(data));
+
+    setTodos(data);
+
+    setTotal(total + 1);
   }
 
   return (
@@ -87,12 +98,12 @@ function App() {
           <p>{date?.month}</p>
         </header>
 
-        <Form />
+        <Form saveTodo={saveTodo} />
         
         <main>
           <ul>
             {todos.map(todo => (
-              <li key={todo.id}>
+              <li key={todo.posted}>
                 <Todo todo={todo} handleClickTodo={handleClickTodo} />
               </li>
             ))}
