@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://user-images.githubusercontent.com/36782514/87621455-3b293700-c6f7-11ea-90db-47f582386699.png" alt="Logo doe" width="100">
+  <img src="https://user-images.githubusercontent.com/36782514/87621455-3b293700-c6f7-11ea-90db-47f582386699.png" alt="Logo doe" width="27">ToDo
 </h1>
 <br>
 
